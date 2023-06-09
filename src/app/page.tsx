@@ -1,95 +1,55 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
+import React from 'react'
+import Script from 'next/script'
+import { ConsentManager, openConsentManager } from '@segment/consent-manager'
+// import { ConsentManager, openConsentManager } from '@segment/consent-manager2'
 
 export default function Home() {
+  const bannerContent = (
+    <span>
+      We use cookies (and other similar technologies) to collect data to improve your experience on
+      our site. By using our website, you’re agreeing to the collection of data as described in our{' '}
+      <a href="/docs/legal/website-data-collection-policy/" target="_blank">
+        Website Data Collection Policy
+      </a>
+      .
+    </span>
+  )
+  const bannerSubContent = 'You can change your preferences at any time.'
+  const preferencesDialogTitle = 'Website Data Collection Preferences'
+  const preferencesDialogContent =
+    'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.'
+  const cancelDialogTitle = 'Are you sure you want to cancel?'
+  const cancelDialogContent =
+    'Your preferences have not been saved. By continuing to use our website, you՚re agreeing to our Website Data Collection Policy.'
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <div>
+      <Script
+        id="show-banner"
+        dangerouslySetInnerHTML={{
+          __html: `!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};;analytics.SNIPPET_VERSION="4.13.2";
+          analytics.page();
+          }}();`
+        }}
+      />
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      <main>
+        <ConsentManager
+          writeKey="5V8KznnIFIDh1ejQLbmX7ikfSRa6r8bF"
+          bannerContent={bannerContent}
+          bannerSubContent={bannerSubContent}
+          preferencesDialogTitle={preferencesDialogTitle}
+          preferencesDialogContent={preferencesDialogContent}
+          cancelDialogTitle={cancelDialogTitle}
+          cancelDialogContent={cancelDialogContent}
+          bannerActionsBlock={true}
         />
-      </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        <button type="button" onClick={openConsentManager}>
+          Website Data Collection Preferences
+        </button>
+      </main>
+    </div>
   )
 }
